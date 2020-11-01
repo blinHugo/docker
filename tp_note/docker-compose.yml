@@ -1,0 +1,24 @@
+version: "3.2"
+services:
+  app:
+    build: .
+    environment:
+      DBHOST: db:3300
+      DATABASE: livre
+      DBUSER: root
+      DBPASSWORD: root
+    ports:
+      - 8080:80
+  db:
+    image: mariadb:10.2
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: livre
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    restart: always
+    volumes:
+      - ./livre.sql:/docker-entrypoint-initdb.d/livre.sql:ro
+      - mariadb:/var/lib/mysql
+volumes:
+  mariadb: {}
